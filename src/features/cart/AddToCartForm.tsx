@@ -1,24 +1,27 @@
-import { actions } from 'astro:actions';
-import type { LineItemInput, Product } from 'storefront:client';
-import { createMutation } from '@tanstack/solid-query';
-import { RiSystemCheckLine } from 'solid-icons/ri';
-import { For, Match, Show, Switch, createEffect, createSignal } from 'solid-js';
-import { Button } from '~/components/ui/Button.tsx';
-import { NumberInput } from '~/components/ui/NumberInput.tsx';
-import { queryClient } from '~/lib/query.ts';
-import { CartStore } from './store.ts';
+import { createMutation } from "@tanstack/solid-query";
+import { RiSystemCheckLine } from "solid-icons/ri";
+import { For, Match, Show, Switch, createEffect, createSignal } from "solid-js";
+import { Button } from "~/components/ui/Button.tsx";
+import { NumberInput } from "~/components/ui/NumberInput.tsx";
+import { queryClient } from "~/lib/query.ts";
+import { CartStore } from "./store.ts";
+import { actions } from "astro:actions";
+import type { LineItemInput, Product } from "storefront:client";
 
 const MAX_QUANTITY = 20;
 
 export function AddToCartForm(props: { product: Product }) {
-	const [selectedOptions, setSelectedOptions] = createSignal<Record<string, string>>({});
+	const [selectedOptions, setSelectedOptions] = createSignal<
+		Record<string, string>
+	>({});
 	const [quantity, setQuantity] = createSignal(1);
-	const [unpickedVariantVisible, setUnpickedVariantVisible] = createSignal(false);
+	const [unpickedVariantVisible, setUnpickedVariantVisible] =
+		createSignal(false);
 
 	createEffect(() => {
 		// sometimes, the browser will pre-check an option if it was previously selected before a refresh,
 		// so we'll look for checked inputs and select the corresponding variant
-		for (const input of document.querySelectorAll('[data-product-option]')) {
+		for (const input of document.querySelectorAll("[data-product-option]")) {
 			if (!(input instanceof HTMLInputElement)) continue;
 			if (!input.checked) continue;
 
@@ -37,12 +40,14 @@ export function AddToCartForm(props: { product: Product }) {
 	const selectedVariant = () =>
 		props.product.variants.find((variant) =>
 			// this could just be isEqual but y'all decided lodash is evil and I'm lazy
-			Object.entries(selectedOptions()).every(([key, value]) => variant.options[key] === value),
+			Object.entries(selectedOptions()).every(
+				([key, value]) => variant.options[key] === value,
+			),
 		);
 
 	const mutation = createMutation(
 		() => ({
-			mutationKey: ['cart', 'items', 'add', props.product.id],
+			mutationKey: ["cart", "items", "add", props.product.id],
 			mutationFn: async (input: LineItemInput) => {
 				return await actions.cart.addItems.orThrow(input);
 			},
@@ -69,7 +74,7 @@ export function AddToCartForm(props: { product: Product }) {
 		return result;
 	};
 
-	const getVariantStock = (variant: Product['variants'][number] | undefined) =>
+	const getVariantStock = (variant: Product["variants"][number] | undefined) =>
 		Math.min(variant?.stock ?? 0, MAX_QUANTITY);
 
 	return (
@@ -79,7 +84,10 @@ export function AddToCartForm(props: { product: Product }) {
 				event.preventDefault();
 				const productVariant = selectedVariant();
 				if (productVariant) {
-					mutation.mutate({ productVariantId: productVariant.id, quantity: quantity() });
+					mutation.mutate({
+						productVariantId: productVariant.id,
+						quantity: quantity(),
+					});
 				} else {
 					setUnpickedVariantVisible(true);
 				}
@@ -89,7 +97,9 @@ export function AddToCartForm(props: { product: Product }) {
 				<For each={[...productOptionValues().entries()]}>
 					{([option, values]) => (
 						<fieldset>
-							<legend class="mb-1 text-slate-700">{option ?? 'Variants'}</legend>
+							<legend class="mb-1 text-slate-700">
+								{option ?? "Variants"}
+							</legend>
 							<Show when={unpickedVariantVisible() && !selectedVariant()}>
 								<p role="alert" class="mb-2 text-sm text-red-400">
 									Please make a selection.
@@ -128,7 +138,12 @@ export function AddToCartForm(props: { product: Product }) {
 				<label for="quantity" class="mb-2 block text-slate-700">
 					Quantity
 				</label>
-				<NumberInput id="quantity" min={1} value={quantity()} setValue={setQuantity} />
+				<NumberInput
+					id="quantity"
+					min={1}
+					value={quantity()}
+					setValue={setQuantity}
+				/>
 			</div>
 			<div class="sticky bottom-4 grid gap-2">
 				<Switch
@@ -138,7 +153,11 @@ export function AddToCartForm(props: { product: Product }) {
 						</Button>
 					}
 				>
-					<Match when={Object.keys(selectedOptions()).length < productOptionValues().size}>
+					<Match
+						when={
+							Object.keys(selectedOptions()).length < productOptionValues().size
+						}
+					>
 						<p class="h-12">Choose a style.</p>
 					</Match>
 					<Match when={selectedVariant() == null}>
@@ -148,13 +167,17 @@ export function AddToCartForm(props: { product: Product }) {
 						<p class="h-12">This style is out of stock.</p>
 					</Match>
 					<Match when={quantity() > getVariantStock(selectedVariant())}>
-						<p class="h-12">Only {getVariantStock(selectedVariant())} left in stock.</p>
+						<p class="h-12">
+							Only {getVariantStock(selectedVariant())} left in stock.
+						</p>
 					</Match>
 				</Switch>
 			</div>
 
 			<Show when={mutation.isError}>
-				<aside class="text-red-500">Sorry, something went wrong. Please try again.</aside>
+				<aside class="text-red-500">
+					Sorry, something went wrong. Please try again.
+				</aside>
 			</Show>
 		</form>
 	);

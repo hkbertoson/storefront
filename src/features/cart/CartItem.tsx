@@ -1,24 +1,24 @@
-import { actions } from 'astro:actions';
-import { createMutation } from '@tanstack/solid-query';
-import { RiSystemDeleteBinLine } from 'solid-icons/ri';
-import { Show } from 'solid-js';
-import { NumberInput } from '~/components/ui/NumberInput.tsx';
+import { createMutation } from "@tanstack/solid-query";
+import { RiSystemDeleteBinLine } from "solid-icons/ri";
+import { Show } from "solid-js";
+import { NumberInput } from "~/components/ui/NumberInput.tsx";
 import {
 	type LineItem,
 	emptyCart,
 	removeItemFromCart,
 	updateCartItemQuantity,
-} from '~/features/cart/cart.ts';
-import { ProductPrice } from '~/features/product/ProductPrice.tsx';
-import { queryClient } from '~/lib/query.ts';
-import { productPath } from '~/paths.ts';
-import { card } from '~/styles.ts';
-import { cartQueryOptions } from './cart.queries.ts';
+} from "~/features/cart/cart.ts";
+import { ProductPrice } from "~/features/product/ProductPrice.tsx";
+import { queryClient } from "~/lib/query.ts";
+import { productPath } from "~/paths.ts";
+import { card } from "~/styles.ts";
+import { cartQueryOptions } from "./cart.queries.ts";
+import { actions } from "astro:actions";
 
 export function CartItem(props: { item: LineItem; class?: string }) {
 	const updateMutation = createMutation(
 		() => ({
-			mutationKey: ['cart', 'items', 'update', props.item.id],
+			mutationKey: ["cart", "items", "update", props.item.id],
 			mutationFn: async (input: { quantity: number }) => {
 				await actions.cart.updateItem.orThrow({
 					id: props.item.id,
@@ -30,8 +30,10 @@ export function CartItem(props: { item: LineItem; class?: string }) {
 				await queryClient.cancelQueries({
 					queryKey: cartQueryOptions().queryKey,
 				});
-				queryClient.setQueryData(cartQueryOptions().queryKey, (cart = emptyCart()) =>
-					updateCartItemQuantity(cart, props.item.id, variables.quantity),
+				queryClient.setQueryData(
+					cartQueryOptions().queryKey,
+					(cart = emptyCart()) =>
+						updateCartItemQuantity(cart, props.item.id, variables.quantity),
 				);
 			},
 		}),
@@ -40,7 +42,7 @@ export function CartItem(props: { item: LineItem; class?: string }) {
 
 	const deleteMutation = createMutation(
 		() => ({
-			mutationKey: ['cart', 'items', 'delete', props.item.id],
+			mutationKey: ["cart", "items", "delete", props.item.id],
 			mutationFn: async () => {
 				await actions.cart.deleteItem.orThrow({
 					id: props.item.id,
@@ -51,8 +53,9 @@ export function CartItem(props: { item: LineItem; class?: string }) {
 				await queryClient.cancelQueries({
 					queryKey: cartQueryOptions().queryKey,
 				});
-				queryClient.setQueryData(cartQueryOptions().queryKey, (cart = emptyCart()) =>
-					removeItemFromCart(cart, props.item.id),
+				queryClient.setQueryData(
+					cartQueryOptions().queryKey,
+					(cart = emptyCart()) => removeItemFromCart(cart, props.item.id),
 				);
 			},
 		}),
@@ -61,10 +64,10 @@ export function CartItem(props: { item: LineItem; class?: string }) {
 
 	return (
 		<Show when={deleteMutation.isIdle}>
-			<div class={`flex items-start gap-8 ${props.class ?? ''}`}>
+			<div class={`flex items-start gap-8 ${props.class ?? ""}`}>
 				<a
 					href={productPath(props.item.productVariant.product.slug)}
-					class={card({ className: 'w-32' })}
+					class={card({ className: "w-32" })}
 				>
 					<img
 						src={props.item.productVariant.product.imageUrl}
@@ -79,9 +82,11 @@ export function CartItem(props: { item: LineItem; class?: string }) {
 						{props.item.productVariant.product.name}
 					</p>
 
-					<Show when={Object.values(props.item.productVariant.options).length > 0}>
+					<Show
+						when={Object.values(props.item.productVariant.options).length > 0}
+					>
 						<p class="-mt-[3px] font-medium text-slate-500">
-							{Object.values(props.item.productVariant.options).join(' • ')}
+							{Object.values(props.item.productVariant.options).join(" • ")}
 						</p>
 					</Show>
 

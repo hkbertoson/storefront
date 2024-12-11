@@ -1,5 +1,5 @@
-import { type Product } from 'storefront:client';
-import { z } from 'zod';
+import { z } from "zod";
+import { type Product } from "storefront:client";
 
 export const stripeProductMetadataSchema = z
 	.object({

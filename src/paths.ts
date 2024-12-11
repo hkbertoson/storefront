@@ -1,3 +1,3 @@
-import type { Product } from './lib/client.ts';
+import type { Product } from "./lib/client.ts";
 
-export const productPath = (slug: Product['slug']) => `/products/${slug}`;
+export const productPath = (slug: Product["slug"]) => `/products/${slug}`;

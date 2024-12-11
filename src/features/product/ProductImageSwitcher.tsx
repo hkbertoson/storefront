@@ -1,8 +1,8 @@
-import type { GetImageResult } from 'astro';
-import { RiSystemCheckLine } from 'solid-icons/ri';
-import { For, Show, createSignal } from 'solid-js';
-import { twMerge } from 'tailwind-merge';
-import Card from '~/components/ui/Card.tsx';
+import type { GetImageResult } from "astro";
+import { RiSystemCheckLine } from "solid-icons/ri";
+import { For, Show, createSignal } from "solid-js";
+import { twMerge } from "tailwind-merge";
+import Card from "~/components/ui/Card.tsx";
 
 interface ProductImageSwitcherProps {
 	productImages: GetImageResult[];
@@ -11,8 +11,9 @@ interface ProductImageSwitcherProps {
 export function ProductImageSwitcher(props: ProductImageSwitcherProps) {
 	const [currentImageIndex, setCurrentImageIndex] = createSignal(0);
 	const currentImage = () => {
-		const img = props.productImages[currentImageIndex() % props.productImages.length];
-		if (!img) throw new Error('Product image index out of bounds.');
+		const img =
+			props.productImages[currentImageIndex() % props.productImages.length];
+		if (!img) throw new Error("Product image index out of bounds.");
 		return img;
 	};
 
@@ -26,8 +27,8 @@ export function ProductImageSwitcher(props: ProductImageSwitcherProps) {
 								setCurrentImageIndex(index());
 							}}
 							class={twMerge(
-								'relative aspect-square h-20 flex-shrink-0 border border-theme-base-200 bg-theme-base-100 p-1 first:mt-auto last:mb-auto',
-								index() === currentImageIndex() && 'border-theme-base-900',
+								"relative aspect-square h-20 flex-shrink-0 border border-theme-base-200 bg-theme-base-100 p-1 first:mt-auto last:mb-auto",
+								index() === currentImageIndex() && "border-theme-base-900",
 							)}
 							type="button"
 						>

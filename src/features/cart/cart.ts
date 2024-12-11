@@ -1,17 +1,17 @@
-import type { LineItem, Product } from 'storefront:client';
-import { z } from 'zod';
-import { unwrap } from '~/lib/util.ts';
+import { z } from "zod";
+import { unwrap } from "~/lib/util.ts";
+import type { LineItem, Product } from "storefront:client";
 
-export type { LineItem } from 'storefront:client';
+export type { LineItem } from "storefront:client";
 
 export interface Cart {
 	items: readonly LineItem[];
 }
 
-export type LineItemId = LineItem['id'];
+export type LineItemId = LineItem["id"];
 
 export type { Product };
-export type ProductId = Product['id'];
+export type ProductId = Product["id"];
 
 export type LineItemData = z.infer<typeof lineItemDataSchema>;
 export const lineItemDataSchema = z.object({
@@ -55,10 +55,16 @@ export function removeItemFromCart(cart: Cart, lineItemId: LineItemId): Cart {
 	};
 }
 
-export function updateCartItemQuantity(cart: Cart, lineItemId: LineItemId, quantity: number) {
+export function updateCartItemQuantity(
+	cart: Cart,
+	lineItemId: LineItemId,
+	quantity: number,
+) {
 	return {
 		...cart,
-		items: cart.items.map((item) => (item.id === lineItemId ? { ...item, quantity } : item)),
+		items: cart.items.map((item) =>
+			item.id === lineItemId ? { ...item, quantity } : item,
+		),
 	};
 }
 
@@ -88,7 +94,8 @@ export function getCartSubtotal(cart: Cart) {
 	return cart.items.reduce(
 		(total, item) =>
 			total +
-			(item.productVariant.product.price - (item.productVariant.product.discount ?? 0)) *
+			(item.productVariant.product.price -
+				(item.productVariant.product.discount ?? 0)) *
 				item.quantity,
 		0,
 	);

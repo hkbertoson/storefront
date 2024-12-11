@@ -1,6 +1,6 @@
-import type { GetImageResult } from 'astro';
-import { For, createSignal, onMount } from 'solid-js';
-import Card from '~/components/ui/Card.tsx';
+import type { GetImageResult } from "astro";
+import { For, createSignal, onMount } from "solid-js";
+import Card from "~/components/ui/Card.tsx";
 
 interface ProductImageCarouselProps {
 	productImages: GetImageResult[];
@@ -15,14 +15,14 @@ export function ProductImageCarousel(props: ProductImageCarouselProps) {
 			(entries) => {
 				for (const entry of entries) {
 					if (entry.isIntersecting) {
-						setCurrentIndex(Number(entry.target.getAttribute('data-index')));
+						setCurrentIndex(Number(entry.target.getAttribute("data-index")));
 					}
 				}
 			},
 			{ root: containerRef, threshold: 0.5 },
 		);
 
-		for (const el of containerRef?.querySelectorAll('li[data-index]') ?? []) {
+		for (const el of containerRef?.querySelectorAll("li[data-index]") ?? []) {
 			observer.observe(el);
 		}
 
@@ -31,9 +31,9 @@ export function ProductImageCarousel(props: ProductImageCarouselProps) {
 
 	const scrollToImage = (index: number) => {
 		containerRef?.children[index]?.scrollIntoView({
-			block: 'nearest',
-			inline: 'center',
-			behavior: 'smooth',
+			block: "nearest",
+			inline: "center",
+			behavior: "smooth",
 		});
 	};
 
@@ -54,7 +54,7 @@ export function ProductImageCarousel(props: ProductImageCarouselProps) {
 									alt=""
 									src={image.src}
 									srcset={image.srcSet.attribute}
-									loading={index() === 0 ? 'eager' : 'lazy'}
+									loading={index() === 0 ? "eager" : "lazy"}
 									draggable={false}
 									class="snap-center"
 								/>

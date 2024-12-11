@@ -1,8 +1,11 @@
-import { RiArrowsArrowRightSLine } from 'solid-icons/ri';
-import type { JSXElement } from 'solid-js';
-import { Drawer } from '~/components/ui/Drawer.tsx';
+import { RiArrowsArrowRightSLine } from "solid-icons/ri";
+import type { JSXElement } from "solid-js";
+import { Drawer } from "~/components/ui/Drawer.tsx";
 
-export function ProductDetailDescriptionDialog(props: { title: string; children: JSXElement }) {
+export function ProductDetailDescriptionDialog(props: {
+	title: string;
+	children: JSXElement;
+}) {
 	return (
 		<Drawer
 			{...props}

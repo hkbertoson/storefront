@@ -1,6 +1,6 @@
-import { type JSX } from 'solid-js';
-import { twMerge } from 'tailwind-merge';
-import { card } from '~/styles';
+import { type JSX } from "solid-js";
+import { twMerge } from "tailwind-merge";
+import { card } from "~/styles";
 
 type Props = JSX.HTMLAttributes<HTMLDivElement>;
 

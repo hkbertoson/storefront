@@ -1,12 +1,12 @@
-import { createQuery } from '@tanstack/solid-query';
-import { Show } from 'solid-js';
-import { Button } from '~/components/ui/Button.tsx';
-import { Drawer } from '~/components/ui/Drawer.tsx';
-import { CartSummary } from '~/features/cart/CartSummary.tsx';
-import { cartQueryOptions } from '~/features/cart/cart.queries.ts';
-import { queryClient } from '~/lib/query.ts';
-import { CartButton } from './CartButton.tsx';
-import { CartStore } from './store.ts';
+import { createQuery } from "@tanstack/solid-query";
+import { Show } from "solid-js";
+import { Button } from "~/components/ui/Button.tsx";
+import { Drawer } from "~/components/ui/Drawer.tsx";
+import { CartSummary } from "~/features/cart/CartSummary.tsx";
+import { cartQueryOptions } from "~/features/cart/cart.queries.ts";
+import { queryClient } from "~/lib/query.ts";
+import { CartButton } from "./CartButton.tsx";
+import { CartStore } from "./store.ts";
 
 export function CartDrawer() {
 	const query = createQuery(
@@ -24,7 +24,12 @@ export function CartDrawer() {
 			<div class="flex h-full flex-col py-4">
 				<CartSummary />
 				<Show when={query.data.items.length > 0}>
-					<form method="post" action="/api/checkout" class="contents" data-astro-reload>
+					<form
+						method="post"
+						action="/api/checkout"
+						class="contents"
+						data-astro-reload
+					>
 						<Button type="submit">Checkout</Button>
 					</form>
 				</Show>

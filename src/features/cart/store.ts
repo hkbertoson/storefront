@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js';
+import { createSignal } from "solid-js";
 
 export const CartStore = (function createCartStore() {
 	const [drawerOpen, setDrawerOpen] = createSignal(false);

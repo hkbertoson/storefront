@@ -1,4 +1,4 @@
-import type { KeysOfUnion, Simplify } from 'type-fest';
+import type { KeysOfUnion, Simplify } from "type-fest";
 
 export type EmptyObject = Record<string, never>;
 

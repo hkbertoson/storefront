@@ -1,6 +1,6 @@
-import { RiSystemAddFill, RiSystemSubtractFill } from 'solid-icons/ri';
-import { type ComponentProps, type JSX, splitProps } from 'solid-js';
-import { clamp } from '~/lib/util.ts';
+import { RiSystemAddFill, RiSystemSubtractFill } from "solid-icons/ri";
+import { type ComponentProps, type JSX, splitProps } from "solid-js";
+import { clamp } from "~/lib/util.ts";
 
 export function NumberInput(
 	props: JSX.InputHTMLAttributes<HTMLInputElement> & {
@@ -50,11 +50,11 @@ export function NumberInput(
 }
 
 function NumberInputButton(
-	props: ComponentProps<'button'> & {
+	props: ComponentProps<"button"> & {
 		icon: JSX.Element;
 	},
 ) {
-	const [local, others] = splitProps(props, ['icon', 'children']);
+	const [local, others] = splitProps(props, ["icon", "children"]);
 	return (
 		<button
 			type="button"

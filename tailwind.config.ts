@@ -1,17 +1,17 @@
-import kobalte from '@kobalte/tailwindcss';
-import typography from '@tailwindcss/typography';
-import type { Config } from 'tailwindcss';
-import animate from 'tailwindcss-animate';
-import colors from 'tailwindcss/colors.js';
-import { fontFamily } from 'tailwindcss/defaultTheme.js';
-import plugin from 'tailwindcss/plugin.js';
+import kobalte from "@kobalte/tailwindcss";
+import typography from "@tailwindcss/typography";
+import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
+import colors from "tailwindcss/colors.js";
+import { fontFamily } from "tailwindcss/defaultTheme.js";
+import plugin from "tailwindcss/plugin.js";
 
-export default {
-	content: ['./src/**/*.{astro,js,jsx,ts,tsx}'],
+export default ({
+	content: ["./src/**/*.{astro,js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ['Inter Variable', ...fontFamily.sans],
+				sans: ["Inter Variable", ...fontFamily.sans],
 			},
 			colors: {
 				theme: {
@@ -26,10 +26,10 @@ export default {
 		typography,
 		plugin(function customStyles(api) {
 			api.addUtilities({
-				'.grid-center': {
-					display: 'grid',
-					'place-items': 'center',
-					'place-content': 'center',
+				".grid-center": {
+					display: "grid",
+					"place-items": "center",
+					"place-content": "center",
 				},
 			});
 		}),
@@ -37,4 +37,4 @@ export default {
 	corePlugins: {
 		container: false,
 	},
-} satisfies Config;
+} satisfies Config);

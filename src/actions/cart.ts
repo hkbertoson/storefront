@@ -1,7 +1,7 @@
-import { type ActionAPIContext, ActionError, defineAction } from 'astro:actions';
-import { z } from 'astro:schema';
-import { getProducts } from 'storefront:client';
-import { loadCartFromCookies, saveCartToCookies } from '~/features/cart/cart.server.ts';
+import {
+	loadCartFromCookies,
+	saveCartToCookies,
+} from "~/features/cart/cart.server.ts";
 import {
 	type Cart,
 	addItemToCart,
@@ -10,7 +10,14 @@ import {
 	normalizeCart,
 	removeItemFromCart,
 	updateCartItemQuantity,
-} from '~/features/cart/cart.ts';
+} from "~/features/cart/cart.ts";
+import {
+	type ActionAPIContext,
+	ActionError,
+	defineAction,
+} from "astro:actions";
+import { z } from "astro:schema";
+import { getProducts } from "storefront:client";
 
 export const cart = {
 	get: defineAction({
@@ -26,22 +33,27 @@ export const cart = {
 			});
 
 			const product = products.data?.items.find((product) =>
-				product.variants.some((variant) => variant.id === input.productVariantId),
+				product.variants.some(
+					(variant) => variant.id === input.productVariantId,
+				),
 			);
 
 			if (!product) {
 				throw new ActionError({
-					code: 'NOT_FOUND',
+					code: "NOT_FOUND",
 					message: `Failed to find product with variant ID "${input.productVariantId}"`,
 				});
 			}
 
-			const lineItem = expandLineItem({ ...input, id: crypto.randomUUID() }, product);
+			const lineItem = expandLineItem(
+				{ ...input, id: crypto.randomUUID() },
+				product,
+			);
 
 			if (lineItem.quantity > lineItem.productVariant.stock) {
 				throw new ActionError({
-					code: 'BAD_REQUEST',
-					message: 'Not enough stock',
+					code: "BAD_REQUEST",
+					message: "Not enough stock",
 				});
 			}
 

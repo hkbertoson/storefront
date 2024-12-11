@@ -1,18 +1,21 @@
-import { createQuery } from '@tanstack/solid-query';
-import { RiFinanceShoppingCartLine } from 'solid-icons/ri';
-import { type ComponentProps } from 'solid-js';
-import { SquareIconButton } from '~/components/ui/Button.tsx';
-import { cartQueryOptions } from '~/features/cart/cart.queries.ts';
-import { queryClient } from '~/lib/query.ts';
-import type { StrictOmit } from '~/lib/types.ts';
+import { createQuery } from "@tanstack/solid-query";
+import { RiFinanceShoppingCartLine } from "solid-icons/ri";
+import { type ComponentProps } from "solid-js";
+import { SquareIconButton } from "~/components/ui/Button.tsx";
+import { cartQueryOptions } from "~/features/cart/cart.queries.ts";
+import { queryClient } from "~/lib/query.ts";
+import type { StrictOmit } from "~/lib/types.ts";
 
-export function CartButton(props: StrictOmit<ComponentProps<typeof SquareIconButton>, 'children'>) {
+export function CartButton(
+	props: StrictOmit<ComponentProps<typeof SquareIconButton>, "children">,
+) {
 	const query = createQuery(
 		() => cartQueryOptions(),
 		() => queryClient,
 	);
 
-	const itemCount = () => query.data.items.reduce((total, item) => total + item.quantity, 0);
+	const itemCount = () =>
+		query.data.items.reduce((total, item) => total + item.quantity, 0);
 
 	return (
 		<div class="relative">

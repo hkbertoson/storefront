@@ -6,24 +6,28 @@ export default {
 	semi: true,
 	singleQuote: true,
 	tabWidth: 2,
-	trailingComma: 'all',
+	trailingComma: "all",
 	useTabs: true,
-	plugins: ['prettier-plugin-astro', 'prettier-plugin-jsdoc', 'prettier-plugin-tailwindcss'],
+	plugins: [
+		"prettier-plugin-astro",
+		"prettier-plugin-jsdoc",
+		"prettier-plugin-tailwindcss",
+	],
 	overrides: [
 		{
-			files: ['.*', '*.md', '*.toml', '*.yml'],
+			files: [".*", "*.md", "*.toml", "*.yml"],
 			options: {
 				useTabs: false,
 			},
 		},
 		{
-			files: ['**/*.astro'],
+			files: ["**/*.astro"],
 			options: {
-				parser: 'astro',
+				parser: "astro",
 			},
 		},
 		{
-			files: ['**/pnpm-lock.yaml'],
+			files: ["**/pnpm-lock.yaml"],
 			options: {
 				requirePragma: true,
 			},

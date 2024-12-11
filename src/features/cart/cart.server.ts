@@ -1,6 +1,11 @@
-import { type Product, getProducts } from 'storefront:client';
-import type { AstroCookies } from 'astro';
-import { type Cart, type CartData, cartDataSchema, expandLineItem } from './cart.ts';
+import type { AstroCookies } from "astro";
+import {
+	type Cart,
+	type CartData,
+	cartDataSchema,
+	expandLineItem,
+} from "./cart.ts";
+import { type Product, getProducts } from "storefront:client";
 
 export function parseCartData(input: unknown): CartData {
 	return cartDataSchema.catch(() => ({ items: [] })).parse(input);
@@ -11,19 +16,29 @@ export async function expandCartData(cartData: CartData): Promise<Cart> {
 		query: {},
 	});
 	if (!productsResponse.data) {
-		throw new Error('Failed to fetch products', { cause: productsResponse.error });
+		throw new Error("Failed to fetch products", {
+			cause: productsResponse.error,
+		});
 	}
 
-	const items = expandCartDataFromProducts(cartData, productsResponse.data.items);
+	const items = expandCartDataFromProducts(
+		cartData,
+		productsResponse.data.items,
+	);
 
 	return { items };
 }
 
-export function expandCartDataFromProducts(cartData: CartData, products: Product[]) {
+export function expandCartDataFromProducts(
+	cartData: CartData,
+	products: Product[],
+) {
 	return cartData.items
 		.map((item) => {
 			const product = products.find((product) =>
-				product.variants.some((variant) => variant.id === item.productVariantId),
+				product.variants.some(
+					(variant) => variant.id === item.productVariantId,
+				),
 			);
 			if (!product) {
 				console.warn(`Product not found for variant ${item.productVariantId}`);
@@ -44,7 +59,7 @@ export function toCartData(cart: Cart): CartData {
 	};
 }
 
-const COOKIE_NAME = 'cart';
+const COOKIE_NAME = "cart";
 
 export async function loadCartFromCookies(cookies: AstroCookies) {
 	const json = cookies.get(COOKIE_NAME)?.json();
@@ -53,9 +68,9 @@ export async function loadCartFromCookies(cookies: AstroCookies) {
 
 export function saveCartToCookies(cart: Cart, cookies: AstroCookies) {
 	cookies.set(COOKIE_NAME, toCartData(cart), {
-		path: '/',
+		path: "/",
 		httpOnly: true,
-		secure: process.env.NODE_ENV === 'production',
-		sameSite: 'lax',
+		secure: process.env.NODE_ENV === "production",
+		sameSite: "lax",
 	});
 }
